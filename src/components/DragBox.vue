@@ -13,24 +13,8 @@
     'move-item'
   ]);
 
-  const test = [
-    {id: 1,
-    name: '1'},
-    {id: 2,
-    name: '2'},
-    {id: 3,
-    name: '3'},
-    {id: 4,
-    name: '4'},
-    {id: 5,
-    name: '5'},
-  ]
-
   /* use prop as initial reference value and pass to variable for reactivity */
   const localItems = ref(props.items);
-  const checkedItems = ref([]);
-
-  console.log(checkedItems.value);
 
   /* prevent default html form submission action */
   /* form is used for semantic and accessible markup */
@@ -47,9 +31,6 @@
 
   /* move selected from one list to another */
   function moveItem() {
-
-    console.log(checkedItems);
-    console.log(checkedItems.value);
 
     // const newLocalItems = localItems.value.filter(function(item) {
       
@@ -76,12 +57,6 @@
     // emit('move-item', checkedItems);
   }
 
-  /* check whether item already exists in array */
-  function checkExisting() {
-  }
-
-  function checkChecked() {
-  }
 </script>
 
 <template>
@@ -97,8 +72,8 @@
       </div>
       <hr />
       <ul>
-        <li class="item" :key="item.id" v-for="(item) in localItems" :class="{'selected': checkedItems.includes(item.id) }">
-          <input id="{{item.id}}" type="checkbox" :key="item.id" :value="item.id" v-model="checkedItems">
+        <li class="item" :key="item.id" v-for="item in localItems" :class="{'selected': item.checked == true }" @click="item.checked = !item.checked">
+          <input id="{{item.id}}" type="checkbox" :key="item.id" :value="item.id" v-model="item.checked">
           <label :for="item.id">{{item.name}}</label>
         </li>
       </ul>
@@ -145,12 +120,12 @@ li:hover {
   cursor: pointer;
 }
 
-/* li input {
+li input {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
-} */
+}
 
 .search {
   width: 100%;

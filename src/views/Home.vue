@@ -4,15 +4,18 @@
   let unread = [
     {
       id:1,
-      name: '1'
+      name: '1',
+      checked: false
     },
     {
       id:2,
-      name:'2'
+      name:'2',
+      checked: false
     },
     {
       id:3,
-      name:'3'
+      name:'3',
+      checked: false
     }
   ];
 
