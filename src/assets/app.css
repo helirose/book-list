@@ -1,0 +1,40 @@
+#app {
+    width: 80%;
+    margin: 0 auto;
+    background: #ffbb00;
+}
+
+#nav-wrapper {
+    width: 100%;
+}
+
+div {
+    padding: 1em;
+}
+
+nav a {
+    margin-right: 1em;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.third {
+    flex: 0 0 100%;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.selected {
+    background: blue;
+}
+
+@media only screen and (min-width: 1024px) {
+    .third {
+        flex: 1 0 33%;
+    }
+}
