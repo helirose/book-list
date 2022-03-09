@@ -1,20 +1,41 @@
 <script setup>
 
-  import { ref, reactive } from "vue";
+  import {computed, reactive} from "vue";
 
   /* props passed in from parent */
   const props = defineProps({
     title: String,
-    items: Array
+    list: String,
+    items: Array,
+    lists: Array
   });
 
-  /* events emitted back to parent */
-  const emit = defineEmits([
-    'move-item'
-  ]);
+  const emits = defineEmits(['reset']);
 
   /* use prop as initial reference value and pass to variable for reactivity */
-  const localItems = ref(props.items);
+  const reactiveItems = reactive(props.items);
+
+  /* filter list for v-for */
+  const filteredItems = computed(() => {
+    let filtered = reactiveItems.filter(function(item, index) {
+      if(item.list == props.list) {
+        return item;
+      }
+    });
+
+    return filtered;
+  });
+
+  /* filter list for v-for */
+  const filteredLists = computed(() => {
+    let filtered = props.lists.filter(function(item, index) {
+      if(item != props.list) {
+        return item;
+      }
+    })
+
+    return filtered;
+  });
 
   /* prevent default html form submission action */
   /* form is used for semantic and accessible markup */
@@ -22,39 +43,22 @@
     event.preventDefault;
   }
 
-  /* take value of input box and add to localItems array */
+  /* take value of input box and add to reactiveItems array */
   function addItem() {
     let searchBox = document.getElementById('addNewInput');
-    localItems.value.push({id: 56, name: searchBox.value});
-    console.log(localItems.value);
+    reactiveItems.push({id: 56, name: searchBox.value});
   }
 
   /* move selected from one list to another */
-  function moveItem() {
-
-    // const newLocalItems = localItems.value.filter(function(item) {
-      
-      // var checked = false;
-
-      // checked.forEach(function(checkedItem) {
-      //   console.log(checkedItem);
-      // });
-      
-      
-      /*(function(checkedItem) {
-        if(item.id == checkedItem.id) {
-          checked = true;
-        }
-      })
-
-      if (checked == false) {
-        return item;
+  function moveItem(selectList) {
+    reactiveItems.forEach(function(element, index) {
+      if(element.checked == true) {
+        element.list = selectList;
       }
-    });*/
+    });
 
-    // console.log(newLocalItems);
-
-    // emit('move-item', checkedItems);
+    /* emit to parent to reset book list */
+    emits('reset');
   }
 
 </script>
@@ -64,7 +68,7 @@
     <h2>{{title}}</h2>
     <form @submit.prevent="formSubmit">
       <nav class="align-right">
-        <button @click="moveItem">Move</button>
+        <button :key="selectList" v-for="selectList in filteredLists" @click="moveItem(selectList)">Move to {{selectList}}</button>
       </nav>
       <div class="search">
         <input id="addNewInput" name="addNewInput" type="text"/>
@@ -72,7 +76,7 @@
       </div>
       <hr />
       <ul>
-        <li class="item" :key="item.id" v-for="item in localItems" :class="{'selected': item.checked == true }" @click="item.checked = !item.checked">
+        <li class="item" :key="item.id" v-for="item in filteredItems" :class="{'selected': item.checked == true }" @click="item.checked = !item.checked">
           <input id="{{item.id}}" type="checkbox" :key="item.id" :value="item.id" v-model="item.checked">
           <label :for="item.id">{{item.name}}</label>
         </li>
@@ -82,6 +86,10 @@
 </template>
 
 <style scoped>
+
+h2 {
+  text-transform: capitalize;
+}
 
 .list-box {
   background: #ffffff;

@@ -1,29 +1,37 @@
 <script setup>
   import DragBox from '@/components/DragBox.vue';
 
-  let unread = [
+  const lists = [
+    'unread',
+    'reading',
+    'read'
+  ];
+
+  const books = [
     {
       id:1,
       name: '1',
-      checked: false
+      checked: false,
+      list: lists[0]
     },
     {
       id:2,
       name:'2',
-      checked: false
+      checked: false,
+      list: lists[0]
     },
     {
       id:3,
       name:'3',
-      checked: false
+      checked: false,
+      list: lists[0]
     }
   ];
 
-  let reading = [];
-  let read = [];
-
-  function moveItem(items) {
-    console.log("Logging from parent");
+  function resetChecked() {
+    books.forEach(function(book, index) {
+      book.checked = false;
+    });
   }
 
 </script>
@@ -32,13 +40,13 @@
   <div class="content">
     <h1>Book List</h1>
     <div class="third">
-      <DragBox title="Unread" :items="unread" @move-item="moveItem" />
+      <DragBox :title="lists[0]" :items="books" :list="lists[0]" :lists="lists" @reset="resetChecked"/>
     </div>
     <div class="third">
-      <DragBox title="Reading" :items="reading" />
+      <DragBox :title="lists[1]" :items="books" :list="lists[1]" :lists="lists" @reset="resetChecked"/>
     </div>
     <div class="third">
-      <DragBox title="Read" :items="read"/>
+      <DragBox :title="lists[2]" :items="books" :list="lists[2]" :lists="lists" @reset="resetChecked"/>
     </div>
   </div>
 </template>
