@@ -1,6 +1,6 @@
 <script setup>
 
-  import {computed, reactive} from "vue";
+  import {computed, ref, reactive} from "vue";
 
   /* props passed in from parent */
   const props = defineProps({
@@ -37,6 +37,8 @@
     return filtered;
   });
 
+  const searchBox = ref("");
+
   /* prevent default html form submission action */
   /* form is used for semantic and accessible markup */
   function formSubmit(event) {
@@ -45,8 +47,19 @@
 
   /* take value of input box and add to reactiveItems array */
   function addItem() {
-    let searchBox = document.getElementById('addNewInput');
-    reactiveItems.push({id: 56, name: searchBox.value});
+
+    let nextId = reactiveItems[reactiveItems.length -1].id + 1;
+
+    let newBook = {
+      id: nextId, 
+      name: searchBox.value,
+      checked: false,
+      list: props.list
+    }
+
+    reactiveItems.push(newBook);
+
+    searchBox.value = "";
   }
 
   /* move selected from one list to another */
@@ -71,7 +84,7 @@
         <button :key="selectList" v-for="selectList in filteredLists" @click="moveItem(selectList)">Move to {{selectList}}</button>
       </nav>
       <div class="search">
-        <input id="addNewInput" name="addNewInput" type="text"/>
+        <input id="addNewInput" type="text" v-model="searchBox"/>
         <button @click="addItem">+</button>
       </div>
       <hr />
