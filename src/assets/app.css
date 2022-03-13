@@ -33,6 +33,11 @@ nav a {
     background: blue;
 }
 
+.top {
+    width: 100%;
+    display: block;
+}
+
 @media only screen and (min-width: 1024px) {
     .third {
         flex: 1 0 33%;

@@ -1,6 +1,7 @@
 <script setup>
 
   import {computed, ref, reactive} from "vue";
+  import axios from "axios";
 
   /* props passed in from parent */
   const props = defineProps({
@@ -116,7 +117,7 @@ h2 {
 }
 
 .list-box nav button {
-  margin: 0 0 0 0.5em;
+  margin: 0 0 0 0.2em;
 }
 
 ul {
@@ -150,23 +151,21 @@ li input {
 
 .search {
   width: 100%;
-  display: block;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
   padding: 0;
   margin: 1em 0;
 }
 
 .search input {
-  width: 80%;
+  flex: 0 1 80%;
+  margin: 0 0.2em 0 0;
   padding: 0.5em;
-  display: inline-block;
 }
 
 .search button {
-  width: 15%;
-  height: 100%;
-  position: absolute;
-  right: 0;
-  display: inline-block;
+  flex: 0 1 20%;
 }
 
 hr {
