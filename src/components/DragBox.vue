@@ -75,6 +75,17 @@
     emits('reset');
   }
 
+  function fetchBook() {
+    axios({
+      method: 'get',
+      url: 'http://',
+      responseType: ''
+    })
+      .then(function (response) {
+        console.log(response.data)
+      });
+  }
+
 </script>
 
 <template>

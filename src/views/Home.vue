@@ -92,7 +92,7 @@
     slots.forEach(function(element, index) {
       if(element.number == number) {
         element.name = "Slot " + number;
-        elemnt.books = [];
+        element.books = [];
       }
     });
   }
@@ -105,7 +105,6 @@
     <div class="top">
       <form id="save-form">
         <select v-model="books">
-          <option disabled value="">Please select one</option>
           <option :key="slot.number" v-for="slot in slots">{{slot.name}}</option>
         </select>
         <input type="text" v-model="save.name">
